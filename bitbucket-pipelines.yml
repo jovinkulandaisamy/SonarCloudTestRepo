@@ -1,0 +1,20 @@
+image: node:10.15.3
+pipelines:
+  default:
+    - step:
+        caches:
+          - node
+        script: # Modify the commands below to build your repository.
+          - npm install 
+           - npm install chromium
+           - npm test
+    - step:
+        name: Deploy to production
+        deployment: Test
+        # trigger: manual  # Uncomment to make this a manual deployment.
+        script:
+          - echo "Deploying to production environment"
+           - apt-get update && apt-get install -y unzip
+           - apt-get install -y openssh-client
+           - ssh root@ec2-13-233-118-180.ap-south-1.compute.amazonaws.com <execute.sh
+
